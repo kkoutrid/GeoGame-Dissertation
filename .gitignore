@@ -1,0 +1,10 @@
+# Secrets & local env — never commit
+.env
+.venv/
+venv/
+
+# Python / build artifacts
+__pycache__/
+*.pyc
+dist/
+*.spec.bak

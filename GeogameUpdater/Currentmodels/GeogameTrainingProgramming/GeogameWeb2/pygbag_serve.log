@@ -1,0 +1,6 @@
+WARNING: wasm mimetype unsupported on that system, trying to correct
+127.0.0.1 - - [14/Jul/2026 14:54:38] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 14:54:50] "GET / HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 14:54:51] "GET /favicon.png HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 14:55:01] "GET /geogameweb2.apk HTTP/1.1" 200 -
+127.0.0.1 - - [14/Jul/2026 15:01:08] "GET /favicon.png HTTP/1.1" 304 -

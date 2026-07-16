@@ -1,0 +1,2 @@
+WARNING: wasm mimetype unsupported on that system, trying to correct
+127.0.0.1 - - [14/Jul/2026 18:53:15] "GET / HTTP/1.1" 200 -

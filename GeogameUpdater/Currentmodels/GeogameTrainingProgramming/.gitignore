@@ -1,0 +1,10 @@
+# PyInstaller build artifacts (regenerable from Geogame91.spec).
+# dist/ holds 100MB+ .exe files that exceed GitHub's 100MB limit — never commit.
+/build/
+/dist/
+*.pyc
+__pycache__/
+
+# pygbag web builds: keep the deployable build/web output, but drop the
+# regenerable ~31MB pyodide download cache.
+GeogameWeb*/build/web-cache/
