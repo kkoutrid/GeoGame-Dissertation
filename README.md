@@ -6,7 +6,7 @@ Yiannis Kontos & Konstantinos Koutridis.
 ## Play it
 
 - **In your browser (no install):** https://kkoutrid.github.io/geogame-web/
-  — also on itch.io: https://kkoutrid.itch.io/geogame
+  — also on itch.io: https://kkoutrid.itch.io/geogame(recommended)
 - **Windows desktop:** download the installer from the
   [Releases](../../releases) page.
 
