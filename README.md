@@ -8,7 +8,7 @@ Yiannis Kontos & Konstantinos Koutridis.
 - **In your browser (no install):** https://kkoutrid.github.io/geogame-web/
 - Also on itch.io: https://kkoutrid.itch.io/geogame (recommended)
 - **Windows desktop:** download the installer from the
-  [Releases](../../releases) page.
+  [Releases](https://github.com/kkoutrid/GeoGame-Dissertation/releases) page.
 
 ## About
 
@@ -19,22 +19,65 @@ pygame game.
 
 ## Repository layout
 
-| Folder | Contents |
-|---|---|
-| `Desktop/` | **Current desktop game** (`Geogame92.py`) with its `GameAssets/`, plus `Geogame92.spec` (PyInstaller) and `Geogame92.iss` (Inno Setup) for the Windows installer. |
-| `Web/` | **Current browser game** (pygbag port). `build/web/` is the deployable site. |
-| `Old versions/Desktop/` | Earlier desktop versions (Geogame80–91, the 2024 `Currentmodels` set, older files and 2023 snapshots). |
-| `Old versions/Web/` | Earlier browser builds (GeogameWeb–GeogameWeb6, WASM backup). |
-| `Tools/` | Email backend for bug reports, bot-training experiments and helper scripts. |
+**The two current versions**
 
-Level data and costs (pipe costs, aux cost per degree, budgets) live in
-`Desktop/GameAssets/geodata.xlsx`. The browser version uses the same file:
-after editing it, run `python Web/geodata_export.py` and rebuild the web game.
+- **`Desktop/`** – the Windows/Linux game you install or run with Python.
+  - `Geogame92.py` – the game itself.
+  - `GameAssets/` – pictures, sounds, fonts and `geodata.xlsx` (levels, pipe
+    costs, budgets).
+  - `Geogame92.spec`, `Geogame92.iss`, `Geogame.ico` – recipes for turning the
+    game into `Geogame92_Setup.exe`.
+- **`Web/`** – the browser game (the same game, adapted to run in a web page).
+  - `main.py` – the game itself.
+  - `build/web/` – the finished website; this is what is uploaded to GitHub
+    Pages and itch.io.
 
-## Running and building
+**Everything else**
 
-- **Desktop from source:** `cd Desktop && pip install -r requirements.txt && python Geogame92.py`
-- **Browser build:** `pip install pygbag && python -m pygbag --build --title GeoGame Web`
-- **Windows installer:** built by GitHub Actions (`.github/workflows/build-windows.yml`)
-  on every `v*` tag and published on the Releases page; it can also be run
-  manually from the Actions tab.
+- **`Old versions/Desktop/`** – earlier desktop games (Geogame80 to Geogame91),
+  kept for reference. Not needed to play or build the current version.
+- **`Old versions/Web/`** – earlier browser builds (GeogameWeb to GeogameWeb6).
+- **`Tools/`** – side projects: the server that emails bug reports, and
+  bot-training experiments.
+
+## How to run and build it yourself
+
+You only need this section if you want to change the game. Players should use
+the links at the top.
+
+Commands are typed in a terminal opened in this folder, with Python 3 installed.
+
+1. **Play the desktop game from the source code**
+
+   ```
+   cd Desktop
+   pip install -r requirements.txt
+   python Geogame92.py
+   ```
+
+   The first line enters the game folder, the second installs the libraries the
+   game needs (pygame, numpy, pandas, …), the third starts the game.
+
+2. **Change levels or costs.** Edit `Desktop/GameAssets/geodata.xlsx`. The
+   browser game reads a copy of this file, so update the copy with:
+
+   ```
+   python Web/geodata_export.py
+   ```
+
+3. **Rebuild the browser game**
+
+   ```
+   pip install pygbag
+   python -m pygbag --build --title GeoGame Web
+   ```
+
+   This writes a new website to `Web/build/web/`. Upload that folder to update
+   the online game.
+
+4. **Make a new Windows installer.** This PC does not have to be Windows:
+   GitHub builds it automatically. Push a tag whose name starts with `v`
+   (for example `v1.2`); a few minutes later `Geogame92_Setup.exe` appears on
+   the Releases page. To test without publishing, open the **Actions** tab and
+   run **Build Windows installer** by hand. The steps are in
+   `.github/workflows/build-windows.yml`.

@@ -20,3 +20,6 @@ username.txt
 **/build/web-cache/
 /Web/main-pygbag.py
 /Web/GameAssets/**/*-pygbag.*
+
+# Local Claude Code settings
+.claude/
