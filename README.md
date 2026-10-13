@@ -18,4 +18,4 @@ temperature to supply houses and greenhouses. The browser version is a
 pygame game.
 
 The `GeogameUpdater/Currentmodels/GeogameTrainingProgramming` folder holds the
-current desktop model (`Geogame91.py`) and the browser port (`GeogameWeb6/`).
+current desktop model (`Geogame92.py`) and the browser port (`GeogameWeb7/`).

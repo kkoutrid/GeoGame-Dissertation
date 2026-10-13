@@ -1,0 +1,4 @@
+# No third-party packages. The array library dependency was replaced with the
+# bundled pure-Python geonp.py shim, because pygbag's runtime wheel download
+# from the pygame-web CDN truncates in-browser. Keep this file free of package
+# names so the loader never tries a network install.

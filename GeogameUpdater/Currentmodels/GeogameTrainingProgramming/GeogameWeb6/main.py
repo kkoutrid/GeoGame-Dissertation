@@ -220,8 +220,8 @@ Tgreenhouse1_in = idata['Tghouse1_in'].to_numpy().astype(float)
 Tgreenhouse1_out = idata['Tghouse1_out'].to_numpy().astype(float)
 Qghouse1_in = idata['Qghouse1_in'].to_numpy().astype(float)
 Qghouse1_out = idata['Qghouse1_out'].to_numpy().astype(float)
-rw_row = idata['rw_row'].to_numpy().astype(int)
-rw_col = idata['rw_col'].to_numpy().astype(int)
+rw_row = idata['rw_row'].to_numpy().astype(int).tolist()
+rw_col = idata['rw_col'].to_numpy().astype(int).tolist()
 outflow_row = idata['outflow_row'].to_numpy().astype(int)
 outflow_col = idata['outflow_col'].to_numpy().astype(int)
 Tloss_pipe = idata['Tloss_pipe'].to_numpy().astype(float)
@@ -1029,7 +1029,7 @@ async def choose_the_starting_Q():
     info_text_en4_3 = f"3-The required hot water supply is equal to {Qhouse0_in[dataset]} and {Qhouse1_in[dataset]} and {Qhouse2_in[dataset]} for residential complexes A, B and C and {Qghouse0_in[dataset]} for greenhouse D."
 
     info_text_en5 = f"4-There is no risk of depleting the aquifer if the total pumped supply QΣ is less than {Qtot_depl[dataset]}."
-    info_text_en6 = f"5-However, a significant drawdown in the piezometric load occurs if QΣ is less than {Qtot_head[dataset]}."
+    info_text_en6 = f"5-However, a significant drawdown in the piezometric load occurs if QΣ is more than {Qtot_head[dataset]}."
     info_text_en7 = "6-The required input and output temperatures are shown in the diagram."
 
     step_h = 50
@@ -1228,7 +1228,7 @@ async def choose_the_use_of_rw_well():
     info_text_en4_3 = f"3-The required hot water supply is equal to {Qhouse0_in[dataset]} and {Qhouse1_in[dataset]} and {Qhouse2_in[dataset]} for residential complexes A, B and C and {Qghouse0_in[dataset]} for greenhouse D."
 
     info_text_en5 = f"4-There is no risk of depleting the aquifer if the total pumped supply QΣ is less than {Qtot_depl[dataset]}."
-    info_text_en6 = f"5-However, a significant drawdown in the piezometric load occurs if QΣ is less than {Qtot_head[dataset]}."
+    info_text_en6 = f"5-However, a significant drawdown in the piezometric load occurs if QΣ is more than {Qtot_head[dataset]}."
     info_text_en7 = "6-The required input and output temperatures are shown in the diagram."
 
     step_h = 50
@@ -2276,7 +2276,7 @@ async def show_input_box3(x, y, screen_width, screen_height, text=""):
     info_text_gr4_3 = f"3-Η απαιτούμενη παροχή θερμού νερού είναι ίση με {Qhouse0_in[dataset]} και {Qhouse1_in[dataset]} και {Qhouse2_in[dataset]} για τα συγκροτήματα κατοικιών Α, Β και Γ αντίστοιχα και {Qghouse0_in[dataset]} για το θερμοκήπιο Δ."
 
     info_text_gr5 = f"4-Δεν υπάρχει κίνδυνος εξάντλησης του υδροφορέα, αν η συνολικά αντλούμενη παροχή QΣ είναι μικρότερη από {Qtot_depl[dataset]}."
-    info_text_gr6 = f"5-Προκαλείται όμως σημαντική πτώση στάθμης του πιεζομετρικού φορτίου, αν η QΣ είναι μικρότερη από {Qtot_head[dataset]}."
+    info_text_gr6 = f"5-Προκαλείται όμως σημαντική πτώση στάθμης του πιεζομετρικού φορτίου, αν η QΣ είναι μεγαλύτερη από {Qtot_head[dataset]}."
     info_text_gr7 = "6-Οι απαιτούμενες θερμοκρασίες εισόδου και εξόδου φαίνονται στο σχήμα."
 
     # English translations
@@ -2293,7 +2293,7 @@ async def show_input_box3(x, y, screen_width, screen_height, text=""):
     info_text_en4_3 = f"3-The required hot water supply is equal to {Qhouse0_in[dataset]} and {Qhouse1_in[dataset]} and {Qhouse2_in[dataset]} for residential complexes A, B and C and {Qghouse0_in[dataset]} for greenhouse D."
 
     info_text_en5 = f"4-There is no risk of depleting the aquifer if the total pumped supply QΣ is less than {Qtot_depl[dataset]}."
-    info_text_en6 = f"5-However, a significant drawdown in the piezometric load occurs if QΣ is less than {Qtot_head[dataset]}."
+    info_text_en6 = f"5-However, a significant drawdown in the piezometric load occurs if QΣ is more than {Qtot_head[dataset]}."
     info_text_en7 = "6-The required input and output temperatures are shown in the diagram."
 
     step_h = 50
@@ -5136,7 +5136,7 @@ async def main_loop_exam_mode():
                                         # things_around += 1
                                         things_around_down += 1
                                 things_around = things_around_left + things_around_up + things_around_right + things_around_down
-                                if ty == -1: conn[tx][ty] = 0
+                                conn_tx_ty = 0 if ty == -1 else conn[tx][ty]
                                 if conn[i][icon_index] * conn[tx][ty] > 0 and things_around <= 1 and \
                                         placement_grid[row - 1][col] <= 9 and 0 <= icon_index <= 5:
                                     pipe_section_grid[row][col] = pipe_section_grid[trow][tcol]
@@ -6174,7 +6174,7 @@ async def main_loop():
                                         # things_around += 1
                                         things_around_down += 1
                                 things_around = things_around_left + things_around_up + things_around_right + things_around_down
-                                if ty == -1: conn[tx][ty] = 0
+                                conn_tx_ty = 0 if ty == -1 else conn[tx][ty]
                                 if conn[i][icon_index] * conn[tx][ty] > 0 and things_around <= 1 and \
                                         placement_grid[row - 1][col] <= 9 and 0 <= icon_index <= 5:
                                     pipe_section_grid[row][col] = pipe_section_grid[trow][tcol]

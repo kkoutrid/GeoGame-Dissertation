@@ -8,3 +8,10 @@ __pycache__/
 # pygbag web builds: keep the deployable build/web output, but drop the
 # regenerable ~31MB pyodide download cache.
 GeogameWeb*/build/web-cache/
+
+# Locally remembered player name (Geogame92+ when run from source).
+username.txt
+
+# pygbag writes these preprocessed copies next to the sources on every build.
+GeogameWeb*/main-pygbag.py
+GeogameWeb*/GameAssets/**/*-pygbag.*
