@@ -1,6 +1,6 @@
 # GeoGame
 
-A geothermal heating network puzzle game — MSc dissertation project by
+A geothermal heating network puzzle game — dissertation project by
 Yiannis Kontos & Konstantinos Koutridis.
 
 ## Play it
