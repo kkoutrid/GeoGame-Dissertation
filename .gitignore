@@ -8,3 +8,15 @@ __pycache__/
 *.pyc
 dist/
 *.spec.bak
+
+# PyInstaller / Inno Setup output (Desktop/Geogame92.spec, Desktop/Geogame92.iss)
+/Desktop/build/
+/Desktop/installer_build/
+
+# Locally remembered player name (Desktop game run from source)
+username.txt
+
+# pygbag: regenerable download cache and preprocessed copies written on every build
+**/build/web-cache/
+/Web/main-pygbag.py
+/Web/GameAssets/**/*-pygbag.*
