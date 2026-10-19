@@ -23,3 +23,6 @@ username.txt
 
 # Local Claude Code settings
 .claude/
+
+# PyCharm project settings (local to each computer)
+.idea/
