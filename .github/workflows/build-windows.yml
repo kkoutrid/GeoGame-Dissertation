@@ -1,11 +1,17 @@
 # Automatic build of the Windows installer (Desktop/Geogame92_Setup.exe) on a Windows runner.
 # - Run manually (Actions tab -> "Build Windows installer" -> Run workflow):
-#   the installer is attached to the run as a downloadable artifact.
+#   the installer is attached to the run as a downloadable artifact. Fill in
+#   "version" (e.g. 1.1) to stamp a real version number instead of a test one.
 # - Push a tag like v1.1: the installer is also published as a GitHub release.
 name: Build Windows installer
 
 on:
   workflow_dispatch:
+    inputs:
+      version:
+        description: "Version to stamp into the installer, e.g. 1.1 (leave empty for a test build)"
+        required: false
+        default: ""
   push:
     tags: ["v*"]
 
@@ -35,7 +41,9 @@ jobs:
       - name: Version
         id: version
         run: |
-          $v = if ("${{ github.ref_type }}" -eq "tag") { "${{ github.ref_name }}".TrimStart("v") } else { "0.0.${{ github.run_number }}-test" }
+          $v = if ("${{ github.ref_type }}" -eq "tag") { "${{ github.ref_name }}".TrimStart("v") }
+               elseif ("${{ inputs.version }}") { "${{ inputs.version }}" }
+               else { "0.0.${{ github.run_number }}-test" }
           "value=$v" >> $env:GITHUB_OUTPUT
 
       - name: Build Geogame92.exe
