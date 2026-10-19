@@ -1,4 +1,4 @@
-# Builds the Windows installer (Desktop/Geogame92_Setup.exe) on a Windows runner.
+# Automatic build of the Windows installer (Desktop/Geogame92_Setup.exe) on a Windows runner.
 # - Run manually (Actions tab -> "Build Windows installer" -> Run workflow):
 #   the installer is attached to the run as a downloadable artifact.
 # - Push a tag like v1.1: the installer is also published as a GitHub release.
