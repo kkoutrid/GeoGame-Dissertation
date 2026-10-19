@@ -1,3 +1,5 @@
+# Files and folders Git should not track
+
 # Secrets & local env — never commit
 .env
 .venv/
