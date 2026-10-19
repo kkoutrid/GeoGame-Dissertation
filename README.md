@@ -19,6 +19,8 @@ pygame game.
 
 ## Repository layout
 
+Each folder also has its own README describing its contents.
+
 **The two current versions**
 
 - **`Desktop/`** – the Windows/Linux game you install or run with Python.
