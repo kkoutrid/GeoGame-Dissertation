@@ -12,6 +12,7 @@ import webbrowser
 from openpyxl import load_workbook
 import math
 import time
+import threading
 import backend_notifier
 
 def resource_path(relative_path):
@@ -3691,10 +3692,10 @@ def game_over_users_not_satisfied():
 
 def game_over_ending():
     global budget, username, budget_calculated, dataset
-    try:
-        backend_notifier.send_game_result_to_backend(username, budget_calculated, datetime.datetime.now(), dataset + 1)
-    except Exception as e:
-        print(f"Failed to notify backend: {e}")
+    # Send the result in the background so the game never waits for the email server.
+    threading.Thread(target=backend_notifier.send_game_result_to_backend,
+                     args=(username, budget_calculated, datetime.datetime.now(), dataset + 1),
+                     daemon=True).start()
     #file_path = root_dir + "\GameAssets\geodata.xlsx"
     file_path = geodata_path  # writable working copy (see geodata_path setup)
     all_of_the_screen = pygame.Rect(0, 0, 1005, 750)
@@ -3783,6 +3784,13 @@ def game_over_ending():
     tip_game_over_button = Button(800, 100, 80, 50, "Tip", GRAY, WHITE)
     levels_button = Button(575, 615, 150, 50, "Levels", GRAY, WHITE)
 
+    # Save the high score once, when the screen opens. It used to be saved on every
+    # event, which re-opened geodata.xlsx for each mouse movement; the events then
+    # piled up and the Start Screen / Levels buttons stopped responding.
+    if Q_grid[rw_row[dataset] - 1][rw_col[dataset]] != -2 and \
+            Q_grid[rw_row[dataset] - 1][rw_col[dataset]] == Q_grid[pw_row[dataset] - 1][pw_col[dataset]]:
+        update_high_score(file_path, dataset, budget_calculated, high_score_column_name)
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -3832,7 +3840,6 @@ def game_over_ending():
                         screen.blit(companyname_text, (850, 725))
                         screen.blit(creditsmail_text1, (10, 710))
                         screen.blit(creditsmail_text2, (10, 725))
-                        update_high_score(file_path, dataset, budget_calculated, high_score_column_name)
                         pygame.display.update()
                     elif language == 'en':
                         screen.fill(GREEN)
@@ -3846,12 +3853,11 @@ def game_over_ending():
                         screen.blit(companyname_text, (850, 725))
                         screen.blit(creditsmail_text1, (10, 710))
                         screen.blit(creditsmail_text2, (10, 725))
-                        update_high_score(file_path, dataset, budget_calculated, high_score_column_name)
                         pygame.display.update()
                     if event.type == pygame.MOUSEBUTTONDOWN and event.button == 1:
                         if return_to_start_screen.is_clicked(pygame.mouse.get_pos()):
                             budget = player_budget[dataset]
-                            username = None
+                            #username = None
                             reset_grid()
                             combined_start_function()
                             main_loop()
