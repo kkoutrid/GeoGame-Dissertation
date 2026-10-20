@@ -222,6 +222,10 @@ Qghouse1_in = idata['Qghouse1_in'].to_numpy().astype(float)
 Qghouse1_out = idata['Qghouse1_out'].to_numpy().astype(float)
 rw_row = idata['rw_row'].to_numpy().astype(int).tolist()
 rw_col = idata['rw_col'].to_numpy().astype(int).tolist()
+# The levels' own recharging well positions. rw_row/rw_col are moved to the
+# outflow when the player plays without the well, so keep the originals.
+rw_well_row = list(rw_row)
+rw_well_col = list(rw_col)
 outflow_row = idata['outflow_row'].to_numpy().astype(int)
 outflow_col = idata['outflow_col'].to_numpy().astype(int)
 Tloss_pipe = idata['Tloss_pipe'].to_numpy().astype(float)
@@ -1456,6 +1460,9 @@ def initialize_grid():
     """Initialize everything in all the grids(grid, placement_grid, etc)"""
     # Clear the grid
     reset_grid()
+    # Put the recharging well back in its own position (an attempt without it moves it to the outflow)
+    rw_row[dataset] = rw_well_row[dataset]
+    rw_col[dataset] = rw_well_col[dataset]
     # What is happening in the grid
     if pw_row[dataset] > 0:
         grid[pw_row[dataset]][pw_col[dataset]] = icon_pw
@@ -5038,13 +5045,12 @@ async def main_loop_exam_mode():
                         ):
                             print(f"that's where i stopped1")
                             if placement_grid[row][col] == -1 and (
-                                    (placement_grid[row][col - 1] in (0, 2, 5, 6, 8, 9, 10, 12)) or \
-                                    (placement_grid[row][col + 1] in (0, 3, 4, 6, 7, 8, 10, 12)) or \
-                                    (placement_grid[row + 1][col] in (1, 4, 5, 7, 8, 9, 10, 12)) or \
+                                    (placement_grid[row][col - 1] in (0, 2, 5, 6, 8, 9, 10)) or \
+                                    (placement_grid[row][col + 1] in (0, 3, 4, 6, 7, 8, 10)) or \
+                                    (placement_grid[row + 1][col] in (1, 4, 5, 7, 8, 9, 10)) or \
                                     ((placement_grid[row - 1][col] == 11) and Q_grid[row - 2][col] != -2) or \
                                     (placement_grid[row - 1][col] in (
-                                            1, 2, 3, 6, 7, 9, 10,
-                                            12))):  # Διόρθωση για να μην επιτρέπεται τοποθέτηση σε λάθος θέση
+                                            1, 2, 3, 6, 7, 9, 10))):  # Διόρθωση για να μην επιτρέπεται τοποθέτηση σε λάθος θέση
                                 print(f"that's where i stopped2")
                                 dropdown_x = square_x + col * square_size
                                 dropdown_y = square_y + (row + 1) * square_size
@@ -6081,13 +6087,12 @@ async def main_loop():
                         ):
                             print(f"that's where i stopped1")
                             if placement_grid[row][col] == -1 and (
-                                    (placement_grid[row][col - 1] in (0, 2, 5, 6, 8, 9, 10, 12)) or \
-                                    (placement_grid[row][col + 1] in (0, 3, 4, 6, 7, 8, 10, 12)) or \
-                                    (placement_grid[row + 1][col] in (1, 4, 5, 7, 8, 9, 10, 12)) or \
+                                    (placement_grid[row][col - 1] in (0, 2, 5, 6, 8, 9, 10)) or \
+                                    (placement_grid[row][col + 1] in (0, 3, 4, 6, 7, 8, 10)) or \
+                                    (placement_grid[row + 1][col] in (1, 4, 5, 7, 8, 9, 10)) or \
                                     ((placement_grid[row - 1][col] == 11) and Q_grid[row - 2][col] != -2) or \
                                     (placement_grid[row - 1][col] in (
-                                            1, 2, 3, 6, 7, 9, 10,
-                                            12))):  # Διόρθωση για να μην επιτρέπεται τοποθέτηση σε λάθος θέση
+                                            1, 2, 3, 6, 7, 9, 10))):  # Διόρθωση για να μην επιτρέπεται τοποθέτηση σε λάθος θέση
                                 print(f"that's where i stopped2")
                                 dropdown_x = square_x + col * square_size
                                 dropdown_y = square_y + (row + 1) * square_size
